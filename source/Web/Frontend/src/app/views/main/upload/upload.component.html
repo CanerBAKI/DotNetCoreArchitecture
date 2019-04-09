@@ -1,0 +1,5 @@
+<div class="js-upload" uk-form-custom>
+    <input type="file" multiple #file (change)="upload(file.files)">
+    <button class="uk-button uk-button-default" type="button" tabindex="-1">Select</button>
+    <h6 class="uk-margin-small">Progress: {{ progress }}%</h6>
+</div>
