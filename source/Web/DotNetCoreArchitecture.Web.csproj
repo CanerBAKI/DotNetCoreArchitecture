@@ -7,6 +7,10 @@
         <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     </PropertyGroup>
     <ItemGroup>
+      <None Remove="Frontend\src\app\components\loader\loader.model.ts" />
+      <None Remove="Frontend\src\app\services\globals.ts" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="DotNetCore.AspNetCore" Version="7.21.0" />
         <PackageReference Include="DotNetCore.IoC" Version="7.7.0" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -14,5 +18,9 @@
     <ItemGroup>
         <ProjectReference Include="..\Application\DotNetCoreArchitecture.Application.csproj" />
         <ProjectReference Include="..\Database\DotNetCoreArchitecture.Database.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <TypeScriptCompile Include="Frontend\src\app\components\loader\loader.model.ts" />
+      <TypeScriptCompile Include="Frontend\src\app\services\globals.ts" />
     </ItemGroup>
 </Project>

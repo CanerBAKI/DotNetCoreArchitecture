@@ -20,6 +20,16 @@ export class AppErrorHandler implements ErrorHandler {
                     appModalService.alert(error.error);
                     return;
                 }
+                case 400: {
+                    const appModalService = this.injector.get<AppModalService>(AppModalService);
+                    let hata = "<ul>";
+                    for (const hata2 in error.error) {
+                        hata += "<li> " + error.error[hata2] + "</li>";
+                    }
+                    hata += "</ul>";
+                    appModalService.alert(hata);
+                    return;
+                }
             }
         }
 

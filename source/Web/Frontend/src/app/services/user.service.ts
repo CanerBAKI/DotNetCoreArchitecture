@@ -7,33 +7,35 @@ import { SignInModel } from "../models/signIn.model";
 import { TokenModel } from "../models/token.model";
 import { UpdateUserModel } from "../models/update.user.model";
 import { UserModel } from "../models/user.model";
+import { Globals } from "./globals";
 
 @Injectable({ providedIn: "root" })
 export class AppUserService {
     constructor(
         private readonly http: HttpClient,
         private readonly router: Router,
-        private readonly appTokenService: AppTokenService) { }
+        private readonly appTokenService: AppTokenService,
+        private readonly globals: Globals) { }
 
     add(addUserModel: AddUserModel) {
-        return this.http.post<number>(`Users`, addUserModel);
+        return this.http.post<number>(this.globals.baseApiUrl+`Users`, addUserModel);
     }
 
     delete(userId: number) {
-        return this.http.delete(`Users/${userId}`);
+        return this.http.delete(this.globals.baseApiUrl +`Users/${userId}`);
     }
 
     list() {
-        return this.http.get<UserModel[]>(`Users`);
+        return this.http.get<UserModel[]>(this.globals.baseApiUrl +`Users`);
     }
 
     select(userId: number) {
-        return this.http.get<UserModel>(`Users/${userId}`);
+        return this.http.get<UserModel>(this.globals.baseApiUrl +`Users/${userId}`);
     }
 
     signIn(signInModel: SignInModel): void {
         this.http
-            .post<TokenModel>(`Users/SignIn`, signInModel)
+            .post<TokenModel>(this.globals.baseApiUrl +`Users/SignIn`, signInModel)
             .subscribe((tokenModel) => {
                 if (tokenModel && tokenModel.token) {
                     this.appTokenService.set(tokenModel.token);
@@ -44,7 +46,7 @@ export class AppUserService {
 
     signOut() {
         if (this.appTokenService.any()) {
-            this.http.post(`Users/SignOut`, {}).subscribe();
+            this.http.post(this.globals.baseApiUrl +`Users/SignOut`, {}).subscribe();
         }
 
         this.appTokenService.clear();
@@ -52,6 +54,6 @@ export class AppUserService {
     }
 
     update(updateUserModel: UpdateUserModel) {
-        return this.http.put(`Users/${updateUserModel.userId}`, updateUserModel);
+        return this.http.put(this.globals.baseApiUrl +`Users/${updateUserModel.userId}`, updateUserModel);
     }
 }

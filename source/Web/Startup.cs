@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace DotNetCoreArchitecture.Web
 {
@@ -31,7 +32,7 @@ namespace DotNetCoreArchitecture.Web
             application.UseMvcWithDefaultRoute();
             application.UseHealthChecks();
             application.UseSwaggerDefault();
-            application.UseSpa(Environment);
+            //application.UseSpa(Environment);
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -40,13 +41,18 @@ namespace DotNetCoreArchitecture.Web
             services.AddCors();
             services.AddJsonWebToken();
             services.AddHash();
-            services.AddAuthenticationJwtBearer();
+            services.AddAuthentication().AddJwtBearer(options => options.Events.OnTokenValidated = ctx =>
+            {
+                //Gerekirse burada gelen token içerisindeki çeşitli bilgilere göre doğrulam yapılabilir.
+                return Task.CompletedTask;
+            });
+            //services.AddAuthenticationJwtBearer();
             services.AddResponseCompression();
             services.AddResponseCaching();
             services.AddMvcDefault();
             services.AddHealthChecks();
             services.AddSwaggerDefault();
-            services.AddSpa();
+            //services.AddSpa();
             services.AddFileService();
             services.AddApplicationServices();
             services.AddDomainServices();
